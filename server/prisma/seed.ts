@@ -10,7 +10,7 @@ async function main() {
     create: {
       email: 'admin@iglesia.com',
       name: 'Juan Admin',
-      password: 'password123', // En producción usar hashing
+      password: 'password123',
       role: 'ADMINISTRADOR',
     },
   });
@@ -39,8 +39,8 @@ async function main() {
     },
   });
 
-  // Crear Personas de ejemplo
-  await prisma.person.create({
+  // Crear Persona
+  const person = await prisma.person.create({
     data: {
       name: 'Ricardo Amigo',
       type: 'AMIGO',
@@ -50,17 +50,35 @@ async function main() {
     },
   });
 
-  await prisma.person.create({
+  // Crear Visita
+  const visit = await prisma.visit.create({
     data: {
-      name: 'Marta Hermana',
-      type: 'HERMANO',
-      status: 'BAUTIZADO',
-      address: 'Av. Siempre Viva 742',
-      assignedLeaderId: leader.id,
+      date: new Date(),
+      location: 'Casa de Ricardo',
+      topic: 'El Plan de Salvación',
+      personId: person.id,
+      leaderId: leader.id,
     },
   });
 
-  console.log('Seed completed successfully');
+  // Crear Pregunta Pendiente
+  await prisma.question.create({
+    data: {
+      content: '¿Por qué Dios permite el sufrimiento si es amor?',
+      visitId: visit.id,
+      isAudited: false,
+    },
+  });
+
+  await prisma.question.create({
+    data: {
+      content: '¿Cuál es la diferencia entre bautismo por inmersión y aspersión?',
+      visitId: visit.id,
+      isAudited: false,
+    },
+  });
+
+  console.log('Seed with questions completed');
 }
 
 main()

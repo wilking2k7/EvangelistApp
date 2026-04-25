@@ -50,6 +50,10 @@
     - Creación de `seed.ts` para poblar la base de datos con Admin, Pastor, Líder y datos de prueba.
     - Desarrollo del componente `AddPersonModal.jsx` con validaciones y carga dinámica de líderes.
     - Integración del flujo de guardado de nuevas personas desde la interfaz.
+17. **Módulo 2 (Programación de Visitas)**:
+    - Creación del `VisitsModule` en el backend con endpoints de CRUD y Auditoría.
+    - Desarrollo de `Scheduling.jsx` con vista de lista de próximas visitas y modal de programación.
+    - Conexión de la agenda con la base de datos real (NestJS + Prisma).
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).

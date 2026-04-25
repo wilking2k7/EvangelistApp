@@ -5,6 +5,7 @@ import { PeopleModule } from './people/people.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { VisitsModule } from './visits/visits.module';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { VisitsModule } from './visits/visits.module';
     DashboardModule,
     UsersModule,
     VisitsModule,
+    QuestionsModule,
   ],
   controllers: [],
   providers: [PrismaService],

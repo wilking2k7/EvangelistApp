@@ -33,8 +33,19 @@ export const createVisit = async (data) => {
   return response.data;
 };
 
-export const auditVisit = async (id, isAudited) => {
-  const response = await api.patch(`/visits/${id}/audit`, { isAudited });
+// Preguntas y Auditoría
+export const getPendingQuestions = async () => {
+  const response = await api.get('/questions/pending');
+  return response.data;
+};
+
+export const getPublishedQuestions = async () => {
+  const response = await api.get('/questions/published');
+  return response.data;
+};
+
+export const approveQuestion = async (id, answer) => {
+  const response = await api.patch(`/questions/${id}/approve`, { answer });
   return response.data;
 };
 
