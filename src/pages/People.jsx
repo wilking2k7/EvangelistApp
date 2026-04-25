@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../components/Card';
+import AddPersonModal from '../components/AddPersonModal';
 import { getPeople } from '../services/api';
 
 const People = () => {
   const [filter, setFilter] = useState('Todos');
   const [peopleData, setPeopleData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchPeople();
@@ -27,7 +29,12 @@ const People = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Directorio de Personas</h2>
-        <button className="btn-primary">+ Registrar Persona</button>
+        <button 
+          onClick={() => setIsModalOpen(true)}
+          className="btn-primary"
+        >
+          + Registrar Persona
+        </button>
       </div>
 
       <div className="flex space-x-2 mb-4">
@@ -97,6 +104,12 @@ const People = () => {
           </table>
         )}
       </Card>
+
+      <AddPersonModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onRefresh={fetchPeople}
+      />
     </div>
   );
 };

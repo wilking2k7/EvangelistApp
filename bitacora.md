@@ -42,6 +42,11 @@
     - `GET /people`: Obtener listado de personas con sus líderes asignados.
     - `POST /people`: Registro de nuevas personas.
     - `GET /dashboard/stats`: Cálculo en tiempo real de estadísticas para el panel principal.
+15. **Conexión Frontend-Backend**:
+    - Instalación de `axios`.
+    - Creación de `src/services/api.js` para centralizar las peticiones.
+    - Actualización de `People.jsx` y `Dashboard.jsx` para consumir datos reales de la base de datos de Docker.
+    - Implementación de estados de carga (Loading) y manejo de errores básicos.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).
