@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../components/Card';
+import { getPeople } from '../services/api';
 
 const People = () => {
   const [filter, setFilter] = useState('Todos');
+  const [peopleData, setPeopleData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const peopleData = [
-    { id: 1, name: 'Andrés García', type: 'Amigo', status: 'Interesado', lastVisit: '2026-04-20', leader: 'Carlos R.' },
-    { id: 2, name: 'María López', type: 'Hermano', status: 'Bautizado', lastVisit: '2026-04-22', leader: 'Ana M.' },
-    { id: 3, name: 'Roberto Solís', type: 'Amigo', status: 'Consolidando', lastVisit: '2026-04-24', leader: 'Carlos R.' },
-    { id: 4, name: 'Lucía Méndez', type: 'Hermano', status: 'Líder en formación', lastVisit: '2026-04-18', leader: 'Juan P.' },
-  ];
+  useEffect(() => {
+    fetchPeople();
+  }, [filter]);
 
-  const filteredPeople = filter === 'Todos' 
-    ? peopleData 
-    : peopleData.filter(p => p.type === filter);
+  const fetchPeople = async () => {
+    try {
+      setLoading(true);
+      const data = await getPeople(filter);
+      setPeopleData(data);
+    } catch (error) {
+      console.error('Error fetching people:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -38,41 +46,56 @@ const People = () => {
         ))}
       </div>
 
-      <Card className="overflow-hidden !p-0">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-white/5 text-slate-400 text-xs uppercase tracking-wider">
-              <th className="px-6 py-4 font-semibold">Nombre</th>
-              <th className="px-6 py-4 font-semibold">Tipo</th>
-              <th className="px-6 py-4 font-semibold">Estado Espiritual</th>
-              <th className="px-6 py-4 font-semibold">Última Visita</th>
-              <th className="px-6 py-4 font-semibold">Líder</th>
-              <th className="px-6 py-4 font-semibold">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/5">
-            {filteredPeople.map((person) => (
-              <tr key={person.id} className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4">
-                  <p className="font-bold text-slate-100">{person.name}</p>
-                </td>
-                <td className="px-6 py-4">
-                  <span className={`text-xs px-2 py-1 rounded-md ${
-                    person.type === 'Hermano' ? 'bg-blue-500/10 text-blue-400' : 'bg-amber-500/10 text-amber-400'
-                  }`}>
-                    {person.type}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-slate-300">{person.status}</td>
-                <td className="px-6 py-4 text-sm text-slate-400">{person.lastVisit}</td>
-                <td className="px-6 py-4 text-sm text-slate-300">{person.leader}</td>
-                <td className="px-6 py-4">
-                  <button className="text-indigo-400 hover:text-indigo-300 text-sm font-bold">Ver Perfil</button>
-                </td>
+      <Card className="overflow-hidden !p-0 min-h-[300px] flex flex-col">
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center text-slate-400">
+            <p className="animate-pulse">Cargando directorio...</p>
+          </div>
+        ) : (
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-white/5 text-slate-400 text-xs uppercase tracking-wider">
+                <th className="px-6 py-4 font-semibold">Nombre</th>
+                <th className="px-6 py-4 font-semibold">Tipo</th>
+                <th className="px-6 py-4 font-semibold">Estado Espiritual</th>
+                <th className="px-6 py-4 font-semibold">Líder</th>
+                <th className="px-6 py-4 font-semibold">Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {peopleData.map((person) => (
+                <tr key={person.id} className="hover:bg-white/[0.02] transition-colors group">
+                  <td className="px-6 py-4">
+                    <p className="font-bold text-slate-100">{person.name}</p>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`text-xs px-2 py-1 rounded-md ${
+                      person.type === 'HERMANO' ? 'bg-blue-500/10 text-blue-400' : 'bg-amber-500/10 text-amber-400'
+                    }`}>
+                      {person.type}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-300">
+                    {person.status.replace(/_/g, ' ')}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-300">
+                    {person.assignedLeader?.name || 'Sin asignar'}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button className="text-indigo-400 hover:text-indigo-300 text-sm font-bold">Ver Perfil</button>
+                  </td>
+                </tr>
+              ))}
+              {peopleData.length === 0 && (
+                <tr>
+                  <td colSpan="5" className="px-6 py-10 text-center text-slate-500 italic">
+                    No hay personas registradas aún.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        )}
       </Card>
     </div>
   );

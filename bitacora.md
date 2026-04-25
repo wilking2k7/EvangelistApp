@@ -38,6 +38,10 @@
     - Configuración de `main.ts`, `app.module.ts` y `prisma.service.ts`.
     - Definición del esquema `schema.prisma` con modelos de: User (Roles), Person (Spiritual Status), Visit y Question (Audit).
     - Ejecución de la primera migración de base de datos exitosa.
+14. **API Endpoints (Primera Fase)**:
+    - `GET /people`: Obtener listado de personas con sus líderes asignados.
+    - `POST /people`: Registro de nuevas personas.
+    - `GET /dashboard/stats`: Cálculo en tiempo real de estadísticas para el panel principal.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).
