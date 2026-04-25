@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMINISTRADOR
+  PASTOR
+  LIDER
+  AUXILIAR
+}
+
+enum PersonType {
+  HERMANO
+  AMIGO
+}
+
+enum SpiritualStatus {
+  INTERESADO
+  CONSOLIDANDO
+  BAUTIZADO
+  LIDER_EN_FORMACION
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(LIDER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedPeople Person[] @relation("LeaderAssignment")
+  visitsMade     Visit[]  @relation("LeaderVisits")
+  visitsAssisted Visit[]  @relation("AssistantVisits")
+}
+
+model Person {
+  id              String          @id @default(uuid())
+  name            String
+  address         String?
+  phone           String?
+  type            PersonType      @default(AMIGO)
+  status          SpiritualStatus @default(INTERESADO)
+  birthDate       DateTime?
+  prayerPetitions String?         @db.Text
+  
+  assignedLeaderId String
+  assignedLeader   User   @relation("LeaderAssignment", fields: [assignedLeaderId], references: [id])
+
+  visits Visit[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Visit {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  location  String?
+  topic     String?
+  summary   String?  @db.Text
+  isAudited Boolean  @default(false)
+
+  personId String
+  person   Person @relation(fields: [personId], references: [id])
+
+  leaderId String
+  leader   User   @relation("LeaderVisits", fields: [leaderId], references: [id])
+
+  assistantId String?
+  assistant   User?   @relation("AssistantVisits", fields: [assistantId], references: [id])
+
+  questions Question[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  id        String  @id @default(uuid())
+  content   String  @db.Text
+  answer    String? @db.Text
+  isAudited Boolean @default(false)
+  
+  visitId String
+  visit   Visit  @relation(fields: [visitId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

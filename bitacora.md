@@ -29,6 +29,10 @@
     - Creación de `People.jsx` con visualización de "Hermanos" y "Amigos".
     - Implementación de estados espirituales (Interesado, Consolidando, Bautizado).
 11. **Refactorización**: Migración del Dashboard a su propia página y creación de componente `Card` reutilizable.
+12. **Infraestructura Docker**: 
+    - Creación de `docker-compose.yml`.
+    - Configuración de PostgreSQL 15 en el puerto **5433**.
+    - Configuración de pgAdmin 4 en el puerto **5051**.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  evangelist-db:
+    image: postgres:15-alpine
+    container_name: evangelist-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user_evangelist
+      POSTGRES_PASSWORD: password_evangelist
+      POSTGRES_DB: evangelist_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  evangelist-pgadmin:
+    image: dpage/pgadmin4
+    container_name: evangelist-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@evangelist.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5051:80"
+    depends_on:
+      - evangelist-db
+
+volumes:
+  postgres_data:
