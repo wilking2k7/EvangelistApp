@@ -20,6 +20,15 @@
     - `Layout.jsx`: Contenedor principal de la aplicación.
     - `App.jsx`: Implementación del Dashboard con tarjetas de estadísticas y tablas de ejemplo.
 6.  **Repositorio**: Repositorio local vinculado al remoto en GitHub.
+7.  **GitHub Push**: Se realizó el primer commit y push a la rama `main`.
+8.  **Contexto y Autenticación**: 
+    - Actualización de roles: **Administrador, Pastor, Líder, Auxiliar**.
+    - Implementación de helper `hasRole` para control de permisos.
+9.  **Navegación**: Instalación de `react-router-dom` y configuración de rutas dinámicas.
+10. **Módulo de Personas**: 
+    - Creación de `People.jsx` con visualización de "Hermanos" y "Amigos".
+    - Implementación de estados espirituales (Interesado, Consolidando, Bautizado).
+11. **Refactorización**: Migración del Dashboard a su propia página y creación de componente `Card` reutilizable.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).

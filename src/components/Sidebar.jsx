@@ -1,13 +1,14 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   const menuItems = [
-    { name: 'Panel de Control', icon: '📊', active: true },
-    { name: 'Programación', icon: '📅' },
-    { name: 'Personas', icon: '👥' },
-    { name: 'Lugares', icon: '📍' },
-    { name: 'Temáticas', icon: '📖' },
-    { name: 'Auditoría', icon: '🛡️' },
+    { name: 'Panel de Control', icon: '📊', path: '/' },
+    { name: 'Personas', icon: '👥', path: '/personas' },
+    { name: 'Programación', icon: '📅', path: '/programacion' },
+    { name: 'Lugares', icon: '📍', path: '/lugares' },
+    { name: 'Temáticas', icon: '📖', path: '/tematicas' },
+    { name: 'Auditoría', icon: '🛡️', path: '/auditoria' },
   ];
 
   return (
@@ -20,17 +21,19 @@ const Sidebar = () => {
 
       <nav className="flex-1 space-y-2">
         {menuItems.map((item) => (
-          <button
+          <NavLink
             key={item.name}
-            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-              item.active 
-              ? 'bg-indigo-accent/20 text-indigo-400 border border-indigo-accent/30' 
-              : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'
-            }`}
+            to={item.path}
+            className={({ isActive }) => `
+              w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300
+              ${isActive 
+                ? 'bg-indigo-accent/20 text-indigo-400 border border-indigo-accent/30' 
+                : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'}
+            `}
           >
             <span className="text-xl">{item.icon}</span>
             <span className="font-medium">{item.name}</span>
-          </button>
+          </NavLink>
         ))}
       </nav>
 
@@ -41,7 +44,7 @@ const Sidebar = () => {
           </div>
           <div>
             <p className="text-sm font-semibold">Admin</p>
-            <p className="text-xs text-slate-500">Cerrar Sesión</p>
+            <p className="text-xs text-slate-500 hover:text-red-400 cursor-pointer">Cerrar Sesión</p>
           </div>
         </div>
       </div>
