@@ -33,6 +33,11 @@
     - Creación de `docker-compose.yml`.
     - Configuración de PostgreSQL 15 en el puerto **5433**.
     - Configuración de pgAdmin 4 en el puerto **5051**.
+13. **Backend Core (NestJS)**:
+    - Inicialización de la carpeta `server`.
+    - Configuración de `main.ts`, `app.module.ts` y `prisma.service.ts`.
+    - Definición del esquema `schema.prisma` con modelos de: User (Roles), Person (Spiritual Status), Visit y Question (Audit).
+    - Ejecución de la primera migración de base de datos exitosa.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).
