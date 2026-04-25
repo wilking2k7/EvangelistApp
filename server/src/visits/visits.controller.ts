@@ -31,4 +31,17 @@ export class VisitsController {
   async auditVisit(@Param('id') id: string, @Body('isAudited') isAudited: boolean) {
     return this.visitsService.audit(id, isAudited);
   }
+
+  @Post(':id/report')
+  async submitReport(
+    @Param('id') id: string,
+    @Body() data: {
+      summary: string;
+      location?: string;
+      questions?: string[];
+      newStatus?: any;
+    }
+  ) {
+    return this.visitsService.submitReport(id, data);
+  }
 }

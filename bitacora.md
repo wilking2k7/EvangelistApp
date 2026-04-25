@@ -58,7 +58,11 @@
     - Creación del `QuestionsModule` en el backend para gestionar preguntas capturadas en visitas.
     - Desarrollo de `Audit.jsx`: Interfaz para Pastores donde revisan preguntas, redactan la respuesta oficial y aprueban la publicación.
     - Desarrollo de `KnowledgeBase.jsx`: Centro de estudio con buscador por temáticas y listado de Q&A auditadas.
-    - Actualización del enrutador y servicios de API para soportar el flujo de auditoría completo.
+19. **Seguridad y Autenticación (Fase 2)**:
+    - Implementación de `AuthModule` en el backend con JWT (JSON Web Tokens) y cifrado Bcrypt.
+    - Desarrollo de la página de `Login.jsx` con diseño inmersivo y validaciones.
+    - Refactorización de `AuthContext.jsx` para persistencia de sesión en LocalStorage.
+    - Protección de rutas en el frontend y visualización dinámica del perfil en el `Sidebar`.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).

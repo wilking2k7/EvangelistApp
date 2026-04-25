@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: 'http://localhost:3001',
 });
 
-// Interceptor para añadir el token JWT a todas las peticiones
+// Interceptor para añadir el token JWT
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -45,6 +45,16 @@ export const getVisits = async () => {
 
 export const createVisit = async (data) => {
   const response = await api.post('/visits', data);
+  return response.data;
+};
+
+export const submitVisitReport = async (id, data) => {
+  const response = await api.post(`/visits/${id}/report`, data);
+  return response.data;
+};
+
+export const auditVisit = async (id, isAudited) => {
+  const response = await api.patch(`/visits/${id}/audit`, { isAudited });
   return response.data;
 };
 

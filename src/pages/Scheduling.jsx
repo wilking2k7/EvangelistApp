@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../components/Card';
+import VisitReportModal from '../components/VisitReportModal';
 import { getVisits, getPeople, getLeaders, createVisit } from '../services/api';
 
 const Scheduling = () => {
   const [visits, setVisits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [selectedVisit, setSelectedVisit] = useState(null);
   
   // Data for form
   const [people, setPeople] = useState([]);
@@ -55,6 +58,11 @@ const Scheduling = () => {
     }
   };
 
+  const handleReport = (visit) => {
+    setSelectedVisit(visit);
+    setIsReportModalOpen(true);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -67,10 +75,10 @@ const Scheduling = () => {
           <p className="text-slate-400 animate-pulse text-center py-20">Cargando agenda...</p>
         ) : (
           visits.map((visit) => (
-            <Card key={visit.id} className="hover:bg-white/[0.02] transition-colors">
-              <div className="flex items-center justify-between">
+            <Card key={visit.id} className="hover:bg-white/[0.02] transition-all border border-transparent hover:border-white/10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center space-x-6">
-                  <div className="text-center bg-indigo-accent/10 px-4 py-2 rounded-xl border border-indigo-accent/20">
+                  <div className="text-center bg-indigo-accent/10 px-4 py-2 rounded-xl border border-indigo-accent/20 min-w-[70px]">
                     <p className="text-xs text-indigo-400 font-bold uppercase">
                       {new Date(visit.date).toLocaleDateString('es-ES', { month: 'short' })}
                     </p>
@@ -86,21 +94,36 @@ const Scheduling = () => {
                     <p className="text-xs text-indigo-400 mt-1 font-medium italic">Tema: {visit.topic || 'Sin tema asignado'}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm font-semibold text-slate-300">Líder: {visit.leader.name}</p>
-                  <p className="text-xs text-slate-500">Auxiliar: {visit.assistant?.name || 'N/A'}</p>
-                  <span className={`inline-block mt-2 text-[10px] px-2 py-1 rounded-full font-bold ${
-                    visit.isAudited ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'
-                  }`}>
-                    {visit.isAudited ? 'AUDITADA' : 'PENDIENTE'}
-                  </span>
+                
+                <div className="flex flex-col md:items-end gap-3">
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-slate-300">Líder: {visit.leader.name}</p>
+                    <span className={`inline-block mt-1 text-[10px] px-2 py-1 rounded-full font-bold ${
+                      visit.summary ? 'bg-emerald-500/10 text-emerald-500' : 'bg-amber-500/10 text-amber-500'
+                    }`}>
+                      {visit.summary ? 'VISITADO' : 'PENDIENTE'}
+                    </span>
+                  </div>
+                  {!visit.summary && (
+                    <button 
+                      onClick={() => handleReport(visit)}
+                      className="text-xs bg-white/5 hover:bg-white/10 text-slate-300 px-4 py-2 rounded-lg transition-colors border border-white/10"
+                    >
+                      📝 Reportar Visita
+                    </button>
+                  )}
+                  {visit.summary && (
+                    <span className="text-[10px] text-slate-500 italic">Reporte enviado ✅</span>
+                  )}
                 </div>
               </div>
             </Card>
           ))
         )}
         {!loading && visits.length === 0 && (
-          <p className="text-slate-500 text-center py-20 italic">No hay visitas programadas.</p>
+          <Card className="text-center py-20 bg-white/[0.01] border-dashed border-2 border-white/5">
+            <p className="text-slate-500 italic">No hay visitas programadas.</p>
+          </Card>
         )}
       </div>
 
@@ -139,6 +162,7 @@ const Scheduling = () => {
                   value={formData.personId}
                   onChange={e => setFormData({ ...formData, personId: e.target.value })}
                 >
+                  <option value="">Selecciona una persona...</option>
                   {people.map(p => <option key={p.id} value={p.id}>{p.name} ({p.type})</option>)}
                 </select>
               </div>
@@ -152,6 +176,7 @@ const Scheduling = () => {
                     value={formData.leaderId}
                     onChange={e => setFormData({ ...formData, leaderId: e.target.value })}
                   >
+                    <option value="">Selecciona un líder...</option>
                     {leaders.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
                   </select>
                 </div>
@@ -184,6 +209,16 @@ const Scheduling = () => {
             </form>
           </Card>
         </div>
+      )}
+
+      {/* Modal de Reporte */}
+      {isReportModalOpen && selectedVisit && (
+        <VisitReportModal 
+          visit={selectedVisit}
+          isOpen={isReportModalOpen}
+          onClose={() => setIsReportModalOpen(false)}
+          onRefresh={fetchData}
+        />
       )}
     </div>
   );
