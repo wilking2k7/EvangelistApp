@@ -6,10 +6,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { VisitsModule } from './visits/visits.module';
 import { QuestionsModule } from './questions/questions.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    AuthModule,
     PeopleModule,
     DashboardModule,
     UsersModule,

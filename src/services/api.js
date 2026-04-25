@@ -4,6 +4,21 @@ const api = axios.create({
   baseURL: 'http://localhost:3001',
 });
 
+// Interceptor para añadir el token JWT a todas las peticiones
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Autenticación
+export const login = async (email, pass) => {
+  const response = await api.post('/auth/login', { email, pass });
+  return response.data;
+};
+
 // Personas
 export const getPeople = async (type) => {
   const params = type && type !== 'Todos' ? { type: type.toUpperCase() } : {};

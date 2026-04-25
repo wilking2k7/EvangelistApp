@@ -54,6 +54,11 @@
     - Creación del `VisitsModule` en el backend con endpoints de CRUD y Auditoría.
     - Desarrollo de `Scheduling.jsx` con vista de lista de próximas visitas y modal de programación.
     - Conexión de la agenda con la base de datos real (NestJS + Prisma).
+18. **Módulo 6 y 7 (Base de Conocimiento y Auditoría)**:
+    - Creación del `QuestionsModule` en el backend para gestionar preguntas capturadas en visitas.
+    - Desarrollo de `Audit.jsx`: Interfaz para Pastores donde revisan preguntas, redactan la respuesta oficial y aprueban la publicación.
+    - Desarrollo de `KnowledgeBase.jsx`: Centro de estudio con buscador por temáticas y listado de Q&A auditadas.
+    - Actualización del enrutador y servicios de API para soportar el flujo de auditoría completo.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).
