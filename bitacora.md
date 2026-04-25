@@ -61,8 +61,11 @@
 19. **Seguridad y Autenticación (Fase 2)**:
     - Implementación de `AuthModule` en el backend con JWT (JSON Web Tokens) y cifrado Bcrypt.
     - Desarrollo de la página de `Login.jsx` con diseño inmersivo y validaciones.
-    - Refactorización de `AuthContext.jsx` para persistencia de sesión en LocalStorage.
-    - Protección de rutas en el frontend y visualización dinámica del perfil en el `Sidebar`.
+20. **Módulo 5 (Ejecución y Validación)**:
+    - Desarrollo del sistema de Reporte de Visitas: los líderes ahora pueden enviar un resumen de la charla.
+    - Integración de **Geolocalización (GPS)**: captura automática de coordenadas al reportar la visita.
+    - Actualización dinámica del **Estado Espiritual** de la persona desde el reporte.
+    - Captura integrada de preguntas para el flujo de auditoría automática.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).

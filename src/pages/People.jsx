@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Card from '../components/Card';
 import AddPersonModal from '../components/AddPersonModal';
 import { getPeople } from '../services/api';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 
 const People = () => {
   const [filter, setFilter] = useState('Todos');
@@ -25,16 +27,45 @@ const People = () => {
     }
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    doc.text('Directorio de Evangelismo - EvangelistApp', 20, 10);
+    
+    const tableColumn = ["Nombre", "Tipo", "Estado Espiritual", "Líder"];
+    const tableRows = [];
+
+    peopleData.forEach(person => {
+      const personData = [
+        person.name,
+        person.type,
+        person.status.replace(/_/g, ' '),
+        person.assignedLeader?.name || 'N/A'
+      ];
+      tableRows.push(personData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    doc.save(`Directorio_${filter}_${new Date().toLocaleDateString()}.pdf`);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Directorio de Personas</h2>
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="btn-primary"
-        >
-          + Registrar Persona
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={exportToPDF}
+            className="bg-white/5 hover:bg-white/10 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium border border-white/10 transition-colors"
+          >
+            📥 Exportar PDF
+          </button>
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="btn-primary"
+          >
+            + Registrar Persona
+          </button>
+        </div>
       </div>
 
       <div className="flex space-x-2 mb-4">
