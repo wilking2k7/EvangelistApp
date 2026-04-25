@@ -46,7 +46,10 @@
     - Instalación de `axios`.
     - Creación de `src/services/api.js` para centralizar las peticiones.
     - Actualización de `People.jsx` y `Dashboard.jsx` para consumir datos reales de la base de datos de Docker.
-    - Implementación de estados de carga (Loading) y manejo de errores básicos.
+16. **Interactividad y Datos Iniciales**:
+    - Creación de `seed.ts` para poblar la base de datos con Admin, Pastor, Líder y datos de prueba.
+    - Desarrollo del componente `AddPersonModal.jsx` con validaciones y carga dinámica de líderes.
+    - Integración del flujo de guardado de nuevas personas desde la interfaz.
 
 ### 📋 Próximos Pasos
 - Crear la estructura de carpetas profesional (`components`, `pages`, `context`).
